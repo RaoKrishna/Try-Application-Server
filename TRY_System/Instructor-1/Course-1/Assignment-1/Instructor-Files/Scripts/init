@@ -1,0 +1,21 @@
+
+if [ -f secret ]; then
+    echo `basename $0` phase started.
+fi
+
+# . $WEB_TRY_INSTRUCTOR_DIR/Scripts/funcs/path
+
+if [ -s secret ]; then set -x; fi
+
+if [ -f secret ]; then
+    echo PROJ=$PROJ
+    echo STUDENT=$STUDENT
+fi
+
+if [ -f secret ]; then
+    echo `basename $0` phase finished.
+fi
+
+# echo "init phase completed successfully"
+
+comment "Msg from init script"

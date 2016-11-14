@@ -1,0 +1,22 @@
+. $WD_BACKPATH/funcs/path
+
+echo
+echo Here is what I have for you at this time:
+echo
+
+if [ -f $origdir/$STUDENT.zip ]; then
+    echo ON-TIME Submission:
+    echo
+    zipinfo -s $origdir/$STUDENT
+fi
+
+echo
+
+if [ -f $origdir/LATE/$STUDENT.zip ]; then
+    echo LATE Submission:
+    echo
+    zipinfo -s $savedir/$STUDENT
+fi
+
+echo
+

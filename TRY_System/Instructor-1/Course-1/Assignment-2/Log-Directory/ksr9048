@@ -1,0 +1,63 @@
+Log recorded for ksr9048 at 11/7/2016 @ 1:2:33
+Msg in copy-script
+Also this msg
+
+
+SUBMISSION PAST DUE
+
+init phase completed successfully
+Comment added by instructor - Msg from echomsg function! But func is in other script
+
+
+HelloWorld.java:4: error: cannot find symbol
+	Child c = new Child();
+	^
+  symbol:   class Child
+  location: class HelloWorld
+HelloWorld.java:4: error: cannot find symbol
+	Child c = new Child();
+	              ^
+  symbol:   class Child
+  location: class HelloWorld
+2 errors
+
+Log recorded for ksr9048 at 11/7/2016 @ 1:3:4
+Msg in copy-script
+Also this msg
+
+
+SUBMISSION PAST DUE
+
+init phase completed successfully
+Comment added by instructor - Msg from echomsg function! But func is in other script
+
+compile worked! Build phase completed successfully!
+
+Hello from child. This has been changed!
+Hello, World
+Run phase completed successfully!
+Comment added by instructor - Good job!!
+
+Log recorded for ksr9048 at 11/7/2016 @ 11:35:51
+Msg in copy-script
+Also this msg
+
+
+SUBMISSION PAST DUE
+
+init phase completed successfully
+Comment added by instructor - Msg from echomsg function! But func is in other script
+
+
+HelloWorld.java:4: error: cannot find symbol
+	Child c = new Child();
+	^
+  symbol:   class Child
+  location: class HelloWorld
+HelloWorld.java:4: error: cannot find symbol
+	Child c = new Child();
+	              ^
+  symbol:   class Child
+  location: class HelloWorld
+2 errors
+

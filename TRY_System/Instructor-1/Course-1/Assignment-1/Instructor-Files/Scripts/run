@@ -1,0 +1,8 @@
+java HelloWorld
+
+if [ $? -eq 0 ]
+then
+  # echo "Run phase completed successfully!"
+  comment "The test cases passed! Good job!!"
+fi
+

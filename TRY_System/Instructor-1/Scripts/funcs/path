@@ -1,0 +1,20 @@
+
+. ./config
+
+# PATH=$INSTRUCTOR_DIR/Scripts/funcs:/usr/local/dcs/bin:/usr/local/jdk/bin:/bin:/usr/bin
+
+PATH=$INSTRUCTOR_DIR/Scripts/funcs:/usr/local/dcs/bin:/usr/local/jdk/bin:/bin:/usr/bin
+
+if [ ! -z $JEH_PATH ]; then
+    PATH=$JEH_PATH:$PATH
+fi
+
+LATE=false
+if [ -z "$JEH_DUE" ]; then
+    :
+else
+    seconds=`cmpdate.sh "${JEH_DUE}"`
+    if [ $seconds -lt 0 ]; then
+        LATE=true
+    fi
+fi

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#../Scratch\ Directory/Student-1
+
+javac *.java
+
+if [ $? -eq 0 ]
+then
+  comment "compiled successfully!"
+  exit 0
+fi
+
