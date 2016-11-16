@@ -39,8 +39,6 @@ app.use(function(req, res, next) {
 
 process.env[`WD_BACKPATH2`] = "../SUBMISSION/studemt";
 
-//app.use(passport.initialize());
-//app.use(passport.session());
 var loginRouter = require('./app/LoginRoutes')();
 app.use('/login', loginRouter);
 
@@ -48,14 +46,18 @@ var studentRouter = require('./app/StudentRoutes')();
 app.use(function(req, res, next) {
 
     var token = req.headers['authorization'];
-    auth.authenticateUser(token, function(username) {
-        if(username != null) {
-            //console.log("Username is: ", username);
-            next();
-        } else {
-            res.sendStatus(401);
-        }
-    });
+    if(token != null) {
+        auth.authenticateUser(token, function (username) {
+            if (username != null) {
+                next();
+            } else {
+                res.sendStatus(401);
+                //res.status(401).json({errorMessage: "Account could not be verified"});
+            }
+        });
+    } else {
+        next();
+    }
 });
 app.use('/student/', studentRouter);
 
