@@ -35,7 +35,9 @@ var storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        cb(null, 'Temp-File-Of-Node-Service-' + Date.now())
+        //console.log(file);
+        cb(null, file.originalname);
+        //cb(null, 'Temp-File-Of-Node-Service-' + Date.now())
     }
 });
 var upload = multer({ storage: storage});
@@ -53,7 +55,8 @@ function createTempFolder(path) {
             });
         }
     } catch(err) {
-        throw err;
+        console.log(err);
+        //throw err;
     }
 }
 
@@ -183,27 +186,7 @@ var router = function() {
     studentRouter.route('/submission/:instructorId/:courseId/:assignmentId/')
         .post(upload.single('file'), function(req, res){
             try {
-                var file = req.file;
-                var tmp_path = file.path;
-                var instructorId = req.params.instructorId;
-                var courseId = req.params.courseId;
-                var assignmentId = req.params.assignmentId;
-                var token = req.headers['authorization'];
-                var user = jwt.decode(token.replace('Bearer ', ''));
-                var username = user.username;
-                var path = `TRY_System/${instructorId}/${courseId}/${assignmentId}/Submission/${username}/temp/`;
-                var target_path = path + file.originalname;
-                var src = fs.createReadStream(tmp_path);
-                var dest = fs.createWriteStream(target_path);
-                dest.on('error', function (err) {
-                    fs.unlink(tmp_path);
-                    res.status(500).send(err);
-                });
-                dest.on('finish', function () {
-                    fs.unlink(tmp_path);
-                    res.status(200).json({done: 'done'});
-                });
-                src.pipe(dest);
+                res.status(200).json({done: "done"});
             } catch (exception) {
                 console.log(exception);
                 res.status(500).json({errorMessage: "There was an internal error. Please contact your instructor.\n" + exception});
