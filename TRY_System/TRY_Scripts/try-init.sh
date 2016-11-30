@@ -1,3 +1,7 @@
 . ./utility-functions.sh
 
-. ./init
+export -f comment
+export -f echoErrorMessage
+export -f saveFile
+
+./init

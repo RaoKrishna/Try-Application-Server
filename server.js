@@ -70,6 +70,10 @@ app.get('/', function(req, res) {
     );
 });
 
+process.on('uncaughtException', function (err) {
+    console.log("Uncaught error in the application. Details: ", err.stack);
+});
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var httpsServer = https.createServer(credentials, app);
 httpsServer.listen(portNo, function(err) {

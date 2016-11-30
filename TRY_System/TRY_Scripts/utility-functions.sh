@@ -5,3 +5,7 @@ echoErrorMessage() {
 comment() {
   echo "Comment added by instructor - $@";
 }
+
+saveFile() {
+  mv $@ ./Files/
+}

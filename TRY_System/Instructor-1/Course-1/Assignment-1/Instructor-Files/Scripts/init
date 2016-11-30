@@ -16,6 +16,10 @@ if [ -f secret ]; then
     echo `basename $0` phase finished.
 fi
 
+touch demo.txt
+saveFile demo.txt
+
 # echo "init phase completed successfully"
 
+#comment $WEB_TRY_CURRENT_DIR
 comment "Msg from init script"

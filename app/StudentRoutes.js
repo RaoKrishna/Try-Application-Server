@@ -98,9 +98,11 @@ var router = function() {
                         } else {
                             var courses = stdout;
                             courses = courses.split('\n');
-                            var index = courses.indexOf("TRY_Scripts");
+                            console.log(courses);
+                            var index = courses.indexOf("Scripts");
                             courses.splice(index, 1);
-                            res.status(200).json(courses.slice(0, courses.length - 1));
+                            console.log(courses);
+                            res.status(200).json(courses.length == 1 ? courses : courses.slice(0, courses.length - 1));
                             if (error !== null) {
                                 console.log('exec error: ' + error);
                             }
@@ -142,6 +144,7 @@ var router = function() {
                 var instructorId = req.params.instructorId;
                 var courseId = req.params.courseId;
                 var assignmentId = req.params.assignmentId;
+                var acceptAssignment = true;
 
                 fs.readFile(`TRY_System/${instructorId}/${courseId}/${assignmentId}/submission-details.txt`, 'utf8',
                     function read(err, data) {
@@ -149,32 +152,124 @@ var router = function() {
                             console.log("Error occured: ", err);
                             res.status(500).json({errorMessage: "There was an internal error. Please contact your instructor.\n" + err});
                         }  else {
-                            var lines = data.split('\n');
+
+                            function fetchLine(array, text) {
+                                array = array.split("\n");
+                                for(var index = 0; index < array.length; index++) {
+                                    if(array[index].trim().toLowerCase().indexOf(text) > -1) {
+                                        return array[index];
+                                    }
+                                }
+                                return null;
+                            }
+
+                            var lines = [];
+                            var line = fetchLine(data, "restricted");
+                            if(line != null) {
+                                lines.push(line);
+                            }
+                            line = fetchLine(data, "mandatory");
+                            if(line != null) {
+                                lines.push(line);
+                            }
+                            line = fetchLine(data, "late due date");
+                            if(line != null) {
+                                console.log(line.substr(line.indexOf(":") + 1));
+                                var lateDueDate = new Date(line.substring(line.indexOf(":") + 1));
+                                console.log("late Due date: ", lateDueDate);
+                                console.log(lateDueDate.getTime());
+                                line = fetchLine(data, "due date");
+                                if(line != null) {
+                                    console.log(line.substr(line.indexOf(":") + 1));
+                                    var dueDate = new Date(line.substring(line.indexOf(":") + 1).trim());
+                                    console.log("Due date: ", dueDate);
+                                    console.log(dueDate.getTime());
+                                    var todayDate = new Date();
+                                    console.log("today's date: ", todayDate);
+                                    console.log(todayDate.getTime());
+                                    if(todayDate.getTime() < dueDate.getTime()) {
+                                        process.env[`WEB_TRY_LATE`] = false;
+                                        if (lines.length == 0) {
+                                            res.status(200).json({cannotAccept: false, data: []});
+                                        } else {
+                                            res.status(200).json({cannotAccept: false, data: lines});
+                                        }
+                                    } else {
+                                        if(todayDate.getTime() < lateDueDate.getTime()) {
+                                            process.env[`WEB_TRY_LATE`] = true;
+                                            if (lines.length == 0) {
+                                                res.status(200).json({cannotAccept: false, data: []});
+                                            } else {
+                                                res.status(200).json({cannotAccept: false, data: lines});
+                                            }
+                                        } else {
+                                            res.status(200).json({cannotAccept: true, data: []});
+                                        }
+                                    }
+                                } else {
+                                    res.status(500).json({errorMessage: "Due date is missing in the script.. Please contact your instructor.\n"});
+                                }
+                            } else {
+                                line = fetchLine(data, "due date");
+                                if(line != null) {
+                                    var dueDate = new Date(line.substring(line.indexOf(":") + 1).trim());
+                                    var todayDate = new Date();
+                                    if(todayDate.getTime() < dueDate.getTime()) {
+                                        process.env[`WEB_TRY_LATE`] = false;
+                                        if (lines.length == 0) {
+                                            res.status(200).json({cannotAccept: false, data: []});
+                                        } else {
+                                            res.status(200).json({cannotAccept: false, data: lines});
+                                        }
+                                    } else {
+                                        res.status(200).json({cannotAccept: true, data: []});
+                                    }
+                                } else {
+                                    res.status(500).json({errorMessage: "Due date is missing in the script.. Please contact your instructor.\n"});
+                                }
+                            }
+
+                            /*var lines = data.split('\n');
                             lines = lines.reduce(function (fileTypeArray, line) {
                                 if (line.trim().indexOf("Restricted") == 0 || line.trim().indexOf("Mandatory") == 0) {
                                     fileTypeArray.push(line.trim());
                                 }
 
-                                // Date comparison for checking due date
-                                if (line.trim().indexOf("Due date") == 0) {
-                                    var dueDate = new Date(line);
+                                // No late due date. Hence reject assignment after due date
+                                /!*if (line.trim().toLowerCase().indexOf("late due date") == -1) {
+                                    if (line.trim().toLowerCase().indexOf("due date") == 0) {
+                                        var dueDate = new Date(line);
+                                        var todayDate = new Date();
+
+                                        // This variable keeps track of the submission status of the assignment.
+                                        // If its late this value will be set to true
+                                        if (todayDate > dueDate) {
+                                            process.env[`WEB_TRY_LATE`] = true;
+                                            acceptAssignment = false;
+                                        } else {
+                                            process.env[`WEB_TRY_LATE`] = false;
+                                        }
+                                    } else {
+                                        throw "Due date is missing in the script."
+                                    }
+                                } else {
+                                    var lateDueDate = new Date(line);
+                                    var dueDate = new Date()
                                     var todayDate = new Date();
 
                                     // This variable keeps track of the submission status of the assignment.
                                     // If its late this value will be set to true
                                     if (todayDate > dueDate) {
                                         process.env[`WEB_TRY_LATE`] = true;
+                                        acceptAssignment = false;
                                     } else {
                                         process.env[`WEB_TRY_LATE`] = false;
                                     }
-                                }
+                                }*!/
                                 return fileTypeArray;
-                            }, []);
-                            if (lines.length == 0) {
-                                res.status(200).json([]);
-                            } else {
-                                res.status(200).json(lines);
-                            }
+                            }, []);*/
+
+
                         }
                     });
             } catch (exception) {
@@ -288,7 +383,9 @@ var router = function() {
                 function invoke_run(error, stdout, stderr) {
                     if (!error && !stderr) {
                         studentMessage += stdout;
+                        studentMessage += stderr;
                         log(stdout + "\n");
+                        log(stderr + "\n");
                         log("Build phase completed successfully!\n");
                         studentMessage += "Build phase completed successfully!\n";
                         exec(`bash try-run.sh`, {cwd: path},
@@ -309,9 +406,11 @@ var router = function() {
                 }
 
                 function invoke_cleanup(error, stdout, stderr) {
-                    if (!error && !stderr) {
+                    if (!error) {
                         studentMessage += stdout;
+                        studentMessage += stderr;
                         log(stdout + "\n");
+                        log(stderr + "\n");
                         log("Run phase completed successfully!\n");
                         studentMessage += "Run phase completed successfully!\n";
                         exec(`bash try-cleanup.sh`, {cwd: path},
@@ -347,7 +446,6 @@ var router = function() {
                         studentMessage += "Cleanup phase failed!\n";
                         log(stdout + "\n" + stderr + "\n");
                         log("Cleanup phase failed!\n");
-                        //process.env[`WEB_TRY_ERROR`] = true;
                         runPostExecutionScript();
                     }
                     studentMessage += "\n";
@@ -365,11 +463,12 @@ var router = function() {
                 function runPostExecutionScript() {
                     exec(`bash post-execution.sh`, {cwd: `TRY_System/TRY_Scripts/`},
                         function (error, stdout, stderr) {
-                            if (!error) {
+                            if (!error && !stderr) {
                                 console.log('Scripts executed! Temporary directories deleted successfully!');
                                 res.status(200).json(studentMessage);
                             } else {
-                                console.log('exec error: ' + error);
+                                console.log('exec error: ' + error + ":" + stderr);
+                                res.status(200).json(studentMessage);
                             }
                         });
                 }

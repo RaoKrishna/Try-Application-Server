@@ -1,3 +1,7 @@
 . ./utility-functions.sh
 
-. ./build
+export -f comment
+export -f echoErrorMessage
+export -f saveFile
+
+./build

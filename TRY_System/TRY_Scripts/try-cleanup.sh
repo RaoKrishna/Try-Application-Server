@@ -1,3 +1,7 @@
 . ./utility-functions.sh
 
-. ./cleanup
+export -f comment
+export -f echoErrorMessage
+export -f saveFile
+
+./cleanup

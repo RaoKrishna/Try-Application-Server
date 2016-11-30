@@ -1,12 +1,2 @@
-#!/bin/sh
-
-#../Scratch\ Directory/Student-1
-
-javac *.java
-
-if [ $? -eq 0 ]
-then
-  echo "compile worked! Build phase completed successfully!"
-  exit 0
-fi
+comment "Compiled!!"
 

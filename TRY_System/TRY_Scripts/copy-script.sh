@@ -3,10 +3,12 @@ mkdir $WEB_TRY_STUDENT_ID
 
 cd $WEB_TRY_STUDENT_ID
 
+#sleep 1
 cp ../../../../../TRY_Scripts/* .
 cp ../../Submission/$WEB_TRY_STUDENT_ID/temp/* .
-cp ../../Instructor-Files/Files/* .
+cp -r ../../Instructor-Files/Files/. . 
 cp ../../Instructor-Files/Scripts/* .
+mkdir Files
 
 echomsg() { echo "$@"; }
 #echomsg "Msg in copy-script"
