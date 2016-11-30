@@ -1,6 +1,0 @@
-echo "Hello"
-echo "World"
-echo $WD_BACKPATH2
-echoerr() { echo "$@" 1>&2; }
-echoerr hello world error
-exit 0
