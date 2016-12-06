@@ -1548,3 +1548,72 @@ Init phase completed successfully!
 ./build: 9: ./build: comment: not found
 
 Build phase failed!
+Log recorded for ksr9048 at 12/5/2016 @ 13:28:51
+
+Comment added by instructor - Msg from init script
+
+Init phase completed successfully!
+
+./build: 9: ./build: comment: not found
+
+Build phase failed!
+Log recorded for ksr9048 at 12/5/2016 @ 13:29:56
+
+Comment added by instructor - Msg from init script
+
+Init phase completed successfully!
+Comment added by instructor - compiled successfully!
+
+Build phase completed successfully!
+
+Hello from child krishna. This is a changed new file!
+Hello, World
+Comment added by instructor - The test cases passed! Good job!!
+
+This is error message!!
+
+Run phase completed successfully!
+Cleanup phase completed successfully!
+Comment added by instructor - Start working on the next assignment
+
+********************************************************
+Log recorded for ksr9048 at 12/5/2016 @ 16:7:14
+
+Init phase completed successfully!
+Comment added by instructor - Msg from init script
+
+
+Build phase completed successfully!
+Comment added by instructor - compiled successfully!
+
+Hello from child krishna. This is a changed new file!
+Hello, World
+Comment added by instructor - The test cases passed! Good job!!
+
+Run phase completed successfully!
+This is error message!!
+
+Comment added by instructor - Start working on the next assignment
+
+Cleanup phase completed successfully!
+********************************************************
+Log recorded for ksr9048 at 12/5/2016 @ 16:14:27
+
+Comment added by instructor - Msg from init script
+
+Init phase completed successfully!
+Comment added by instructor - compiled successfully!
+
+
+Build phase completed successfully!
+This is error message!!
+
+Run phase completed successfully!
+Hello from child krishna. This is a changed new file!
+Hello, World
+Comment added by instructor - The test cases passed! Good job!!
+
+Comment added by instructor - Start working on the next assignment
+
+Cleanup phase completed successfully!
+********************************************************
