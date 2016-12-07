@@ -14,11 +14,10 @@ else
 		rm -rf Previous-Submission/*
 		if $WEB_TRY_LATE
 		then
-			for file in ./LATE/*; do
-	   			if ! [ -d "$file" ]; then
-	     				mv -- "$file" Previous-Submission/
-	   			fi
-			done
+			if [ -d "LATE" ];
+			then
+				mv ./LATE Previous-Submission/
+			fi
 		else
 			for file in *; do
 	   			if ! [ -d "$file" ]; then
@@ -30,6 +29,11 @@ else
 		mkdir "Previous-Submission"	
 	fi
 	
+	if [ -d "LATE" ];
+	then
+		rm -rf LATE
+	fi
+
 	if $WEB_TRY_LATE
 	then
 		mkdir "LATE"

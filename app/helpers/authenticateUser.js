@@ -5,7 +5,7 @@ var privateKey = fs.readFileSync('./privatekey.key');
 module.exports = {
     authenticateUser: function(token, callback) {
         token = token.replace('Bearer ', '');
-
+        console.log('token is: ', token);
         jwt.verify(token, privateKey, function (err, token) {
             if(err) {
                 console.log("Error while verifying: " + err);

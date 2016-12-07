@@ -37,7 +37,14 @@ app.use(function(req, res, next) {
     }
 });
 
-process.env[`WD_BACKPATH2`] = "../SUBMISSION/studemt";
+app.get('/', function(req, res) {
+    res.json(
+        {
+            name: 'API',
+            age: 2000
+        }
+    );
+});
 
 var loginRouter = require('./app/LoginRoutes')();
 app.use('/login', loginRouter);
@@ -52,7 +59,6 @@ app.use(function(req, res, next) {
                 next();
             } else {
                 res.sendStatus(401);
-                //res.status(401).json({errorMessage: "Account could not be verified"});
             }
         });
     } else {
@@ -60,15 +66,6 @@ app.use(function(req, res, next) {
     }
 });
 app.use('/student/', studentRouter);
-
-app.get('/', function(req, res) {
-    res.json(
-        {
-            name: 'API',
-            age: 2000
-        }
-    );
-});
 
 process.on('uncaughtException', function (err) {
     console.log("Uncaught error in the application. Details: ", err.stack);
