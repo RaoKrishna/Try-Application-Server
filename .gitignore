@@ -1,0 +1,4 @@
+certificate.crt
+privatekey.key
+CodeDeployKey.pem
+rootkey.csv
